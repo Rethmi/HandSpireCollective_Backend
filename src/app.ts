@@ -1,7 +1,7 @@
 import express, {Express, Request, Response} from "express";
 import cors from "cors";
 import categoryRoutes from "./routes/category.routes";
-// import projectRoutes from "./routes/project.routes";
+import projectRoutes from "./routes/project.routes";
 import userRoutes from "./routes/user.routes";
 import authRoutes from "./routes/auth.routes";
 
@@ -23,7 +23,7 @@ const corsOptions = {
 }
 app.use(cors(corsOptions));
 app.use("/api/category", categoryRoutes);
-// app.use("/api/project",projectRoutes);
+app.use("/api/project",projectRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/auth",authRoutes );
 

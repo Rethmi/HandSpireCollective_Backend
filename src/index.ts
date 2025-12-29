@@ -55,7 +55,7 @@ import authRouter from './routes/auth.routes';// ඔබගේ route file path �
 
 import userRouter from './routes/user.routes';
 
-// import projectRouter from './routes/project.routes';
+import projectRouter from './routes/project.routes';
 
 const app = express()
 const port = process.env.PORT || 5000
@@ -70,7 +70,7 @@ app.use('/api/auth', authRouter);
 app.use('/api/category', categoryRouter)
 app.use('/api/user', userRouter);
 
-// app.use('/api/project', projectRouter);
+app.use('/api/project', projectRouter);
 
 app.listen(port , () => console.log("Started server" , port))
 
