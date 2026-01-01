@@ -346,6 +346,30 @@ export const getProjectsByCategory = async (req: Request, res: Response) => {
   }
 };
 
+// export const saveProjects = async (req: Request, res: Response) => {
+//   try {
+//     const newProject = req.body;
+
+//     const error = projectService.validateProjects(newProject);
+//     if (error) return res.status(400).json({ error });
+
+//     const saved = await projectService.saveProjects(newProject);
+
+//     const user = getUserFromToken(req);
+//     EmailService.sendProjectUploadSuccessEmail(
+//       newProject.uploadedUserEmail,
+//       saved,
+//       user?.username || newProject.author
+//     );
+
+//     res.status(201).json({ success: true, project: saved });
+//   } catch (e: any) {
+//     if (e.code === 11000)
+//       return res.status(409).json({ error: "Duplicate project ID" });
+//     res.status(500).json({ error: "Something went wrong!" });
+//   }
+// };
+
 export const saveProjects = async (req: Request, res: Response) => {
   try {
     const newProject = req.body;
@@ -354,13 +378,18 @@ export const saveProjects = async (req: Request, res: Response) => {
     if (error) return res.status(400).json({ error });
 
     const saved = await projectService.saveProjects(newProject);
-
     const user = getUserFromToken(req);
+
+    // 1. User ට confirmation email එක යැවීම
     EmailService.sendProjectUploadSuccessEmail(
       newProject.uploadedUserEmail,
       saved,
       user?.username || newProject.author
     );
+
+    // 2. Admin ට notification email එක යැවීම (අලුතින් එකතු කළ කොටස)
+// Controller එක ඇතුළත
+await EmailService.sendAdminNewProjectNotification(saved);
 
     res.status(201).json({ success: true, project: saved });
   } catch (e: any) {
@@ -369,7 +398,6 @@ export const saveProjects = async (req: Request, res: Response) => {
     res.status(500).json({ error: "Something went wrong!" });
   }
 };
-
 export const getProjectsByEmail = async (req: Request, res: Response) => {
   try {
     const email = req.params.uploadedUserEmail;
