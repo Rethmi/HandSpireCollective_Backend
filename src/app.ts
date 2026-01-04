@@ -9,7 +9,7 @@ import authRoutes from "./routes/auth.routes";
 const  app: Express = express();
 
 const AllowedOrigins = [
-    "http://localhost:5173",
+    "http://localhost:5173","hand-spire-collective-frontend-js2g.vercel.app"
 ];
 app.use(express.json());
 const corsOptions = {
